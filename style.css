@@ -1,0 +1,227 @@
+/* FONT IMPORTS - REMOVED GOOGLE FONTS */
+
+/* GENERAL STLES */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Bookman Old Style', serif; /* CHANGED FONT */
+    overflow: hidden;
+    background-color: #f0f0f0;
+    text-transform: uppercase;
+}
+
+::placeholder {
+    text-transform: uppercase;
+    font-family: 'Bookman Old Style', serif; /* CHANGED FONT */
+}
+
+/* PAGE CONTAINER STYLES */
+.page {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    overflow: auto;
+    display: none; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5em;
+}
+
+.page.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* BACKGROUND STYLES - FINAL IMAGE */
+#identification-page, #selection-page, #selection-type-page {
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.pexels.com/photos/96622/pexels-photo-96622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+#data-input-page, #data-input-page-dom, #ldm-input-page {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('https://images.pexels.com/photos/96622/pexels-photo-96622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-size: cover;
+    background-position: center;
+    color: #333;
+    justify-content: flex-start;
+    padding-top: 1em;
+}
+
+#dual-report-page {
+    background-image: linear-gradient(rgba(233, 236, 239, 0.9), rgba(233, 236, 239, 0.9)), url('https://images.pexels.com/photos/96622/pexels-photo-96622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-size: cover;
+    background-position: center;
+    justify-content: flex-start;
+}
+
+.page h1 { font-size: 2.5rem; margin-bottom: 0.2em; }
+.page h2 { font-size: 1.3rem; margin-top: 0; margin-bottom: 1.5em; font-weight: 400; }
+.page h3 { font-size: 1rem; font-weight: 400; margin-bottom: 2em; font-style: italic; }
+
+.action-button {
+    padding: 0.9em 2.5em; font-size: 1rem; color: white; border: 1px solid #0056b3;
+    border-radius: 8px; cursor: pointer; transition: all 0.3s ease;
+    font-family: 'Bookman Old Style', serif; /* CHANGED FONT */
+    background-color: #007bff;
+}
+.action-button:hover { background-color: #0056b3; transform: translateY(-2px); }
+
+.page-navigation { display: flex; gap: 1em; margin-top: 1.5em; width: 100%; justify-content: center; }
+.previous-btn { background-color: #6c757d; border-color: #5a6268; }
+.previous-btn:hover { background-color: #5a6268; }
+
+#selection-page .selection-buttons,
+#selection-type-page .selection-buttons { 
+    display: flex; flex-direction: column; gap: 1.5em; margin-top: 1em; 
+}
+.selection-btn { padding: 1.2em 3.5em; font-size: 1.1rem; }
+
+#identification-page h1 { 
+    font-family: 'Bookman Old Style', serif; /* CHANGED FONT */
+    font-size: 3rem; 
+    margin-bottom: 0.3em; 
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+}
+#identification-page h2 { font-size: 1.1rem; margin-bottom: 0.5em; } /* Adjusted margin */
+#identification-page h3 { font-size: 0.9rem; margin-bottom: 2em; }
+.input-group { margin: 0.6em 0; }
+.input-group input {
+    padding: 0.8em; width: 280px; border: 1px solid #ccc; border-radius: 8px; 
+    font-family: 'Bookman Old Style', serif; /* CHANGED FONT */
+    background-color: rgba(240, 240, 240, 0.85); color: #333; text-align: center; font-size: 0.9rem;
+}
+
+#data-input-page h1, #data-input-page-dom h1, #ldm-input-page h1 { font-size: 1.8rem; margin-bottom: 1em; }
+.form-container {
+    width: 100%; max-width: 950px; margin: 0 auto; display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.8em 1.2em;
+}
+
+.input-field { display: flex; flex-direction: column; text-align: left; }
+.input-field label { margin-bottom: 0.4em; color: #555; font-weight: bold; font-size: 0.8rem; }
+.input-field input, .input-field textarea {
+    padding: 0.7em; border: 1px solid #ccc; border-radius: 5px;
+    background-color: rgba(227, 242, 253, 0.85); 
+    font-family: 'Bookman Old Style', serif; /* CHANGED FONT */
+    text-transform: uppercase;
+}
+.input-field textarea { height: 80px; resize: vertical; }
+
+.prefixed-input, .suffixed-input { display: flex; align-items: center; }
+.prefixed-input span { border-right: none; border-radius: 5px 0 0 5px; }
+.prefixed-input input { border-radius: 0 5px 5px 0; }
+.suffixed-input span { border-left: none; border-radius: 0 5px 5px 0; }
+.prefixed-input span, .suffixed-input span { padding: 0.7em; background-color: #e9ecef; border: 1px solid #ccc; }
+.prefixed-input input, .suffixed-input input { flex-grow: 1; }
+
+.tri-input { display: flex; gap: 0.5em; }
+.tri-input input { flex: 1 1 0; width: 0; }
+
+.dual-input { display: flex; gap: 0.5em; }
+.dual-input input { flex: 1 1 0; width: 0; }
+
+.input-pair { display: flex; gap: 0.5em; }
+.input-pair input:first-child { flex: 0 1 70px; }
+.input-pair input:last-child { flex: 1 1 auto; }
+
+.input-field-group { display: flex; gap: 1.2em; align-items: flex-start; }
+.input-field-group .input-field { flex: 1; }
+
+.passenger-input-group { display: flex; align-items: center; gap: 0.3em; }
+.passenger-input-group input { flex: 1; text-align: center; min-width: 30px; }
+.passenger-input-group span { font-weight: bold; padding: 0 0.2em; }
+
+.distribution-input-group { display: flex; gap: 0.5em; justify-content: center; }
+.distribution-input-group input { flex: 0 1 60px; text-align: center; }
+
+
+.form-container .action-button {
+     grid-column: 1 / -1; padding: 1em; width: 50%; margin: 1em auto 0 auto;
+}
+
+/* DUAL REPORT PAGE STYLES */
+.dual-report-container {
+    display: flex;
+    gap: 2em;
+    width: 100%;
+    height: calc(100% - 80px); 
+    padding: 1em;
+}
+.report-half {
+    flex: 1;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1.5em;
+    overflow-y: auto;
+    text-align: left;
+    color: black;
+}
+.report-half h2 {
+    text-align: center;
+    margin-top: 0;
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5em;
+}
+#left-report-content {
+    font-family: 'Bookman Old Style', serif; /* CHANGED FONT */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+#right-report-content {
+    font-family: 'Bookman Old Style', serif; /* CHANGED FONT */
+    font-size: 14px;
+    text-transform: uppercase;
+}
+#dual-report-page .page-navigation {
+     height: 60px;
+}
+
+/* UPDATED PRINT STYLES */
+@media print {
+    body, html {
+        background: #fff;
+    }
+    body * {
+        visibility: hidden;
+    }
+    .page-navigation {
+        display: none !important;
+    }
+    .printable, .printable * {
+        visibility: visible;
+    }
+    .printable {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 15mm;
+        border: none;
+        box-sizing: border-box; 
+    }
+    #printable-right, #printable-right * {
+        font-size: 10pt !important;
+        font-family: 'Bookman Old Style', serif !important; /* CHANGED FONT */
+    }
+     #left-report-content.printable,
+     #left-report-content.printable * {
+        font-size: 10pt !important;
+        font-family: 'Bookman Old Style', serif !important; /* CHANGED FONT */
+     }
+}

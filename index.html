@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station Departure Report</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- PAGE 1: USER IDENTIFICATION -->
+    <div id="identification-page" class="page active">
+        <h1>US BANGLA AIRLINES</h1>
+        <h2>STATION DEPARTURE REPORT</h2>
+        <h3>INVENTION OF RADOAN RASEL</h3>
+        <div class="input-group"><input type="text" id="user-name" placeholder="USER NAME"></div>
+        <div class="input-group"><input type="text" id="usba-id" placeholder="USBA ID"></div>
+        <div class="input-group"><input type="text" id="station-name" value="DHAKA" readonly></div>
+        <button id="enter-btn" class="action-button">ENTER</button>
+    </div>
+
+    <!-- PAGE 2: SELECTION -->
+    <div id="selection-page" class="page">
+        <h1>WELCOME TO US BANGLA AIRLINES</h1>
+        <h3>INVENTION OF RADOAN RASEL</h3>
+        <div class="selection-buttons">
+            <button id="departure-ldm-btn" class="action-button selection-btn">FLIGHT REPORT & MESSAGE (BULK INFO)</button>
+            <button id="only-ldm-btn" class="action-button selection-btn">FOR LOAD CONTROLLER</button>
+        </div>
+        <div class="page-navigation"><button id="selection-previous-btn" class="action-button previous-btn">PREVIOUS</button></div>
+    </div>
+    
+    <!-- PAGE 2.5: SELECTION TYPE (DOMESTIC/INTERNATIONAL) -->
+    <div id="selection-type-page" class="page">
+        <h1>MAKING FOR</h1>
+        <div class="selection-buttons">
+            <button id="domestic-btn" class="action-button selection-btn">DOMESTIC</button>
+            <button id="international-btn" class="action-button selection-btn">INTERNATIONAL</button>
+        </div>
+        <div class="page-navigation"><button id="selection-type-previous-btn" class="action-button previous-btn">PREVIOUS</button></div>
+    </div>
+
+
+    <!-- PAGE 3A: DATA INPUT (INTERNATIONAL) -->
+    <div id="data-input-page" class="page">
+        <h1>ENTER FLIGHT DATA (INTERNATIONAL)</h1>
+        <div class="form-container">
+            <div class="input-field"><label for="date-intl">DATE</label><input type="date" id="date-intl"></div>
+            <div class="input-field"><label for="flight-no-suffix-intl">FLIGHT NO</label><div class="prefixed-input"><span>BS-</span><input type="text" id="flight-no-suffix-intl" placeholder="XXX"></div></div>
+            <div class="input-field"><label for="route-intl">ROUTE</label><input type="text" id="route-intl" placeholder="E.G., DAC-SIN"></div>
+            <div class="input-field"><label for="ac-reg-suffix-intl">A/C REG</label><div class="prefixed-input"><span>S2-</span><input type="text" id="ac-reg-suffix-intl" list="ac-reg-list" placeholder="XXX"></div><datalist id="ac-reg-list"><option value="AKG"></option><option value="AKK"></option><option value="AKH"></option><option value="AKI"></option><option value="AKJ"></option><option value="AKL"></option><option value="AKM"></option><option value="AKO"></option><option value="AKP"></option><option value="AJG"></option><option value="AJH"></option><option value="AJE"></option><option value="AJF"></option><option value="ALA"></option><option value="ALB"></option><option value="ALD"></option></datalist></div>
+            <div class="input-field"><label for="ac-type-intl">A/C TYPE</label><input type="text" id="ac-type-intl" readonly></div>
+            <div class="input-field"><label for="captain-intl">CAPTAIN</label><input type="text" id="captain-intl" list="captain-list"><datalist id="captain-list"></datalist></div>
+            <div class="input-field"><label for="configure-intl">CONFIGURE</label><input type="text" id="configure-intl" placeholder="00/00/00"></div>
+            <div class="input-field"><label for="std-intl">STD</label><input type="text" class="time-input" id="std-intl" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="door-closed-intl">DOOR CLOSED</label><input type="text" class="time-input" id="door-closed-intl" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="chocks-off-intl">CHOCKS OFF</label><input type="text" class="time-input" id="chocks-off-intl" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="airborne-intl">AIRBORNE</label><input type="text" class="time-input" id="airborne-intl" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="departure-status-intl">DEPARTURE STATUS</label><input type="text" id="departure-status-intl"></div>
+            <div class="input-field"><label for="flight-load-intl">FLIGHT LOAD</label><input type="number" id="flight-load-intl" placeholder="Booked Pax Figure"></div>
+            <div class="input-field" style="grid-column: span 2;"><label for="passengers-male-intl">PASSENGERS (M+F+C+I=TOTAL)</label><div class="passenger-input-group"><input type="number" id="passengers-male-intl" placeholder="M"><span>+</span><input type="number" id="passengers-female-intl" placeholder="F"><span>+</span><input type="number" id="passengers-child-intl" placeholder="C"><span>+</span><input type="number" id="passengers-infant-intl" placeholder="I"><span>=</span><input type="text" id="passengers-total-intl" placeholder="T" readonly></div></div>
+            <div class="input-field"><label for="fuel-uplift-intl">FUEL UPLIFT</label><div class="suffixed-input"><input type="number" id="fuel-uplift-intl" placeholder="E.G., 17500"><span>KG</span></div></div>
+            <div class="input-field"><label for="baggage-weight-intl">BAGGAGE</label><div class="dual-input"><input type="number" id="baggage-weight-intl" placeholder="Weight"><input type="number" id="baggage-pcs-intl" placeholder="PCS"></div></div>
+            <div class="input-field"><label for="cargo-weight-intl">CARGO</label><div class="dual-input"><input type="number" id="cargo-weight-intl" placeholder="Weight"><input type="number" id="cargo-pcs-intl" placeholder="PCS"></div></div>
+            <div class="input-field"><label for="crew-bag-weight-intl">CREW BAG</label><div class="tri-input"><input type="number" id="crew-bag-weight-intl" placeholder="Weight"><input type="number" id="crew-bag-pcs-intl" placeholder="PCS"><input type="text" id="crew-bag-com-no-intl" placeholder="COM NO"></div></div>
+            <div class="input-field"><label for="mail-intl">MAIL</label><input type="text" id="mail-intl" placeholder="XXX pcs"></div>
+            <div class="input-field"><label for="counter-noshow-intl">COUNTER NOSHOW</label><input type="number" id="counter-noshow-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="gate-no-show-intl">GATE NO SHOW</label><input type="number" id="gate-no-show-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="self-offload-intl">SELF OFFLOAD</label><input type="number" id="self-offload-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="refused-intl">REFUSED</label><input type="number" id="refused-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="immigration-off-intl">IMMIGRATION OFF</label><input type="number" id="immigration-off-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="immigration-not-face-intl">IMMIGRATION NOT FACE</label><input type="number" id="immigration-not-face-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="custom-off-intl">CUSTOM OFF</label><input type="number" id="custom-off-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="vip-intl">VIP</label><input type="number" id="vip-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="cip-intl">CIP</label><input type="number" id="cip-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="maas-intl">MAAS</label><input type="number" id="maas-intl" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="um-pax-intl">UM PAX</label><input type="number" id="um-pax-intl" placeholder="Pax Figure"></div>
+            <div class="input-field-group" style="grid-column: 1 / -1;"><div class="input-field"><label for="wchr-fig-intl">WCHR</label><div class="input-pair"><input type="number" id="wchr-fig-intl" placeholder="Fig"><input type="text" id="wchr-seat-intl" placeholder="Seat No"></div></div><div class="input-field"><label for="wchc-fig-intl">WCHC</label><div class="input-pair"><input type="number" id="wchc-fig-intl" placeholder="Fig"><input type="text" id="wchc-seat-intl" placeholder="Seat No"></div></div></div>
+            <div class="input-field"><label for="check-in-stuff-intl">Check-In STUFF</label><input type="text" id="check-in-stuff-intl" placeholder="Check-In STUFF"></div>
+            <div class="input-field"><label for="loading-stuff-intl">Loading STUFF / G7</label><input type="text" id="loading-stuff-intl" placeholder="Loading STUFF / G7"></div>
+            <div class="input-field"><label for="load-controller-intl">LOAD CONTROLLER</label><input type="text" id="load-controller-intl" placeholder="LOAD CONTROLLER"></div>
+            <div class="input-field"><label for="pax-handling-intl">Pax Handling</label><input type="text" id="pax-handling-intl" placeholder="Pax Handling"></div>
+            <div class="input-field" style="grid-column: 1 / -1;"><label for="remarks-intl">REMARKS</label><textarea id="remarks-intl" placeholder="INPUT ANY NOSHOW PNR(S) OR OTHER REMARKS HERE."></textarea></div>
+            <div class="page-navigation" style="grid-column: 1 / -1;"><button id="data-previous-btn-intl" class="action-button previous-btn">PREVIOUS</button><button id="generate-report-btn-intl" class="action-button">GENERATE FINAL REPORT</button></div>
+        </div>
+    </div>
+    
+    <!-- PAGE 3B: DATA INPUT (DOMESTIC) -->
+    <div id="data-input-page-dom" class="page">
+        <h1>ENTER FLIGHT DATA (DOMESTIC)</h1>
+        <div class="form-container">
+            <div class="input-field"><label for="date-dom">DATE</label><input type="date" id="date-dom"></div>
+            <div class="input-field"><label for="flight-no-suffix-dom">FLIGHT NO</label><div class="prefixed-input"><span>BS-</span><input type="text" id="flight-no-suffix-dom" placeholder="XXX"></div></div>
+            <div class="input-field"><label for="route-dom">ROUTE</label><input type="text" id="route-dom" placeholder="E.G., DAC-CGP"></div>
+            <div class="input-field"><label for="ac-reg-suffix-dom">A/C REG</label><div class="prefixed-input"><span>S2-</span><input type="text" id="ac-reg-suffix-dom" list="ac-reg-list" placeholder="XXX"></div></div>
+            <div class="input-field"><label for="ac-type-dom">A/C TYPE</label><input type="text" id="ac-type-dom" readonly></div>
+            <div class="input-field"><label for="captain-dom">CAPTAIN</label><input type="text" id="captain-dom" list="captain-list"></div>
+            <div class="input-field"><label for="configure-dom">CONFIGURE</label><input type="text" id="configure-dom" placeholder="00/00/00"></div>
+            <div class="input-field"><label for="std-dom">STD</label><input type="text" class="time-input" id="std-dom" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="door-closed-dom">DOOR CLOSED</label><input type="text" class="time-input" id="door-closed-dom" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="chocks-off-dom">CHOCKS OFF</label><input type="text" class="time-input" id="chocks-off-dom" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="airborne-dom">AIRBORNE</label><input type="text" class="time-input" id="airborne-dom" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="departure-status-dom">DEPARTURE STATUS</label><input type="text" id="departure-status-dom"></div>
+            <div class="input-field"><label for="flight-load-dom">FLIGHT LOAD</label><input type="number" id="flight-load-dom" placeholder="Booked Pax Figure"></div>
+            <div class="input-field" style="grid-column: span 2;"><label for="passengers-male-dom">PASSENGERS (M+F+C+I=TOTAL)</label><div class="passenger-input-group"><input type="number" id="passengers-male-dom" placeholder="M"><span>+</span><input type="number" id="passengers-female-dom" placeholder="F"><span>+</span><input type="number" id="passengers-child-dom" placeholder="C"><span>+</span><input type="number" id="passengers-infant-dom" placeholder="I"><span>=</span><input type="text" id="passengers-total-dom" placeholder="T" readonly></div></div>
+            <div class="input-field"><label for="fuel-uplift-dom">FUEL UPLIFT</label><div class="suffixed-input"><input type="number" id="fuel-uplift-dom" placeholder="E.G., 17500"><span>KG</span></div></div>
+            <div class="input-field"><label for="baggage-weight-dom">BAGGAGE</label><div class="dual-input"><input type="number" id="baggage-weight-dom" placeholder="Weight"><input type="number" id="baggage-pcs-dom" placeholder="PCS"></div></div>
+            <div class="input-field"><label for="cargo-weight-dom">CARGO</label><div class="dual-input"><input type="number" id="cargo-weight-dom" placeholder="Weight"><input type="number" id="cargo-pcs-dom" placeholder="PCS"></div></div>
+            <div class="input-field"><label for="mail-dom">MAIL</label><input type="text" id="mail-dom" placeholder="XXX pcs"></div>
+            <div class="input-field"><label for="counter-noshow-dom">COUNTER NOSHOW</label><input type="number" id="counter-noshow-dom" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="gate-no-show-dom">GATE NO SHOW</label><input type="number" id="gate-no-show-dom" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="self-offload-dom">SELF OFFLOAD</label><input type="number" id="self-offload-dom" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="vip-dom">VIP</label><input type="number" id="vip-dom" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="cip-dom">CIP</label><input type="number" id="cip-dom" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="maas-dom">MAAS</label><input type="number" id="maas-dom" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="um-pax-dom">UM PAX</label><input type="number" id="um-pax-dom" placeholder="Pax Figure"></div>
+            <div class="input-field-group" style="grid-column: 1 / -1;"><div class="input-field"><label for="wchr-fig-dom">WCHR</label><div class="input-pair"><input type="number" id="wchr-fig-dom" placeholder="Fig"><input type="text" id="wchr-seat-dom" placeholder="Seat No"></div></div><div class="input-field"><label for="wchc-fig-dom">WCHC</label><div class="input-pair"><input type="number" id="wchc-fig-dom" placeholder="Fig"><input type="text" id="wchc-seat-dom" placeholder="Seat No"></div></div></div>
+            <div class="input-field"><label for="check-in-stuff-dom">Check-In STUFF</label><input type="text" id="check-in-stuff-dom" placeholder="Check-In STUFF"></div>
+            <div class="input-field"><label for="loading-stuff-dom">Loading STUFF / G7</label><input type="text" id="loading-stuff-dom" placeholder="Loading STUFF / G7"></div>
+            <div class="input-field"><label for="load-controller-dom">LOAD CONTROLLER</label><input type="text" id="load-controller-dom" placeholder="LOAD CONTROLLER"></div>
+            <div class="input-field"><label for="pax-handling-dom">Pax Handling</label><input type="text" id="pax-handling-dom" placeholder="Pax Handling"></div>
+            <div class="input-field" style="grid-column: 1 / -1;"><label for="remarks-dom">REMARKS</label><textarea id="remarks-dom" placeholder="YOU MAY INPUT ANY NOSHOW PNR HERE, IF HAVE."></textarea></div>
+            <div class="page-navigation" style="grid-column: 1 / -1;"><button id="data-previous-btn-dom" class="action-button previous-btn">PREVIOUS</button><button id="generate-report-btn-dom" class="action-button">GENERATE FINAL REPORT</button></div>
+        </div>
+    </div>
+    
+    <!-- PAGE 3C: LDM-ONLY INPUT (MODIFIED) -->
+    <div id="ldm-input-page" class="page">
+        <h1>FOR LOAD CONTROLLER</h1>
+        <div class="form-container">
+            <div class="input-field"><label for="date-ldm">DATE</label><input type="date" id="date-ldm"></div>
+            <div class="input-field"><label for="flight-no-suffix-ldm">FLIGHT NO</label><div class="prefixed-input"><span>BS-</span><input type="text" id="flight-no-suffix-ldm" placeholder="XXX"></div></div>
+            <div class="input-field"><label for="route-ldm">ROUTE</label><input type="text" id="route-ldm" placeholder="E.G., DAC-SIN"></div>
+            <div class="input-field"><label for="ac-reg-suffix-ldm">A/C REG</label><div class="prefixed-input"><span id="ac-reg-prefix-ldm">S2-</span><input type="text" id="ac-reg-suffix-ldm" list="ac-reg-list" placeholder="XXX"></div></div>
+            <div class="input-field"><label for="ac-type-ldm">A/C TYPE</label><input type="text" id="ac-type-ldm" readonly></div>
+            <div class="input-field"><label for="captain-ldm">CAPTAIN</label><input type="text" id="captain-ldm" list="captain-list"></div>
+            <div class="input-field"><label for="configure-ldm">CONFIGURE</label><input type="text" id="configure-ldm" placeholder="2/5"></div>
+            
+            <div class="input-field"><label for="std-ldm">STD (UTC)</label><input type="text" class="time-input" id="std-ldm" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="door-closed-ldm">DOOR CLOSED (UTC)</label><input type="text" class="time-input" id="door-closed-ldm" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="chocks-off-ldm">CHOCKS OFF (UTC)</label><input type="text" class="time-input" id="chocks-off-ldm" placeholder="HHMM" maxlength="5"></div>
+            <div class="input-field"><label for="airborne-ldm">AIRBORNE (UTC)</label><input type="text" class="time-input" id="airborne-ldm" placeholder="HHMM" maxlength="5"></div>
+            
+            <div class="input-field"><label for="departure-status-ldm">DEPARTURE STATUS</label><input type="text" id="departure-status-ldm"></div>
+            <div class="input-field"><label for="fuel-uplift-ldm">FUEL UPLIFT</label><div class="suffixed-input"><input type="number" id="fuel-uplift-ldm" placeholder="E.G., 17500"><span>KG</span></div></div>
+            <div class="input-field" style="grid-column: span 2;"><label for="passengers-male-ldm">PASSENGERS (M+F+C+I=TOTAL)</label><div class="passenger-input-group"><input type="number" id="passengers-male-ldm" placeholder="M"><span>+</span><input type="number" id="passengers-female-ldm" placeholder="F"><span>+</span><input type="number" id="passengers-child-ldm" placeholder="C"><span>+</span><input type="number" id="passengers-infant-ldm" placeholder="I"><span>=</span><input type="text" id="passengers-total-ldm" placeholder="T" readonly></div></div>
+            <div class="input-field"><label for="baggage-weight-ldm">BAGGAGE</label><div class="tri-input"><input type="number" id="baggage-weight-ldm" placeholder="Weight"><input type="number" id="baggage-pcs-ldm" placeholder="PCS"><input type="text" id="baggage-com-no-ldm" placeholder="COM NO"></div></div>
+            <div class="input-field"><label for="cargo-weight-ldm">CARGO</label><div class="tri-input"><input type="number" id="cargo-weight-ldm" placeholder="Weight"><input type="number" id="cargo-pcs-ldm" placeholder="PCS"><input type="text" id="cargo-com-no-ldm" placeholder="COM NO"></div></div>
+            <div class="input-field"><label for="crew-bag-pcs-ldm">CREW BAG</label><div class="dual-input"><input type="number" id="crew-bag-pcs-ldm" placeholder="PCS"><input type="text" id="crew-bag-com-no-ldm" placeholder="COM NO"></div></div>
+            <div class="input-field"><label for="total-weight-ldm">TOTAL WEIGHT</label><input type="text" id="total-weight-ldm" readonly></div>
+            <div class="input-field" style="grid-column: span 2;"><label for="distribution-ldm">DISTRIBUTION</label>
+                <div id="dist-boeing-container-ldm" class="distribution-input-group" style="display: none;"><input type="number" id="dist-b1-ldm" placeholder="C1"><input type="number" id="dist-b2-ldm" placeholder="C2"><input type="number" id="dist-b3-ldm" placeholder="C3"><input type="number" id="dist-b4-ldm" placeholder="C4"></div>
+                <div id="dist-airbus-container-ldm" class="distribution-input-group" style="display: none;"><input type="number" id="dist-a1-ldm" placeholder="C1"><input type="number" id="dist-a2-ldm" placeholder="C2"><input type="number" id="dist-a3-ldm" placeholder="C3"><input type="number" id="dist-a4-ldm" placeholder="C4"><input type="number" id="dist-a5-ldm" placeholder="C5"></div>
+                <div id="dist-atr-container-ldm" class="distribution-input-group" style="display: none;"><input type="number" id="dist-atr-fwr-ldm" placeholder="FWR"><input type="number" id="dist-atr-fwl-ldm" placeholder="FWL"><input type="number" id="dist-atr-aft-ldm" placeholder="AFT"></div>
+            </div>
+            <div class="input-field"><label for="status-ldm">STATUS</label><input type="text" id="status-ldm" readonly></div>
+            <div class="input-field"><label for="mail-ldm">MAIL</label><input type="text" id="mail-ldm" placeholder="XXX pcs"></div>
+            <div class="input-field"><label for="counter-noshow-ldm">COUNTER NOSHOW</label><input type="number" id="counter-noshow-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="gate-no-show-ldm">GATE NO SHOW</label><input type="number" id="gate-no-show-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="self-offload-ldm">SELF OFFLOAD</label><input type="number" id="self-offload-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="refused-ldm">REFUSED</label><input type="number" id="refused-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="immigration-off-ldm">IMMIGRATION OFF</label><input type="number" id="immigration-off-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="immigration-not-face-ldm">IMMIGRATION NOT FACE</label><input type="number" id="immigration-not-face-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="custom-off-ldm">CUSTOM OFF</label><input type="number" id="custom-off-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="maas-ldm">MAAS</label><input type="number" id="maas-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field"><label for="um-pax-ldm">UM PAX</label><input type="number" id="um-pax-ldm" placeholder="Pax Figure"></div>
+            <div class="input-field-group" style="grid-column: 1 / -1;"><div class="input-field"><label for="wchr-fig-ldm">WCHR</label><div class="input-pair"><input type="number" id="wchr-fig-ldm" placeholder="Fig"><input type="text" id="wchr-seat-ldm" placeholder="Seat No"></div></div><div class="input-field"><label for="wchc-fig-ldm">WCHC</label><div class="input-pair"><input type="number" id="wchc-fig-ldm" placeholder="Fig"><input type="text" id="wchc-seat-ldm" placeholder="Seat No"></div></div></div>
+            <div class="input-field"><label for="loading-stuff-ldm">Loading STUFF / G7</label><input type="text" id="loading-stuff-ldm" placeholder="Loading STUFF / G7"></div>
+            <div class="input-field"><label for="load-controller-ldm">LOAD CONTROLLER</label><input type="text" id="load-controller-ldm" placeholder="LOAD CONTROLLER"></div>
+            <div class="input-field"><label for="pax-handling-ldm">UNDER LOAD</label><input type="text" id="pax-handling-ldm" placeholder="UNDER LOAD"></div>
+            <div class="input-field" style="grid-column: 1 / -1;"><label for="remarks-ldm">REMARKS</label><textarea id="remarks-ldm" placeholder="INPUT ANY NOSHOW PNR(S) OR OTHER REMARKS HERE."></textarea></div>
+            <div class="page-navigation" style="grid-column: 1 / -1;"><button id="data-previous-btn-ldm" class="action-button previous-btn">PREVIOUS</button><button id="generate-report-btn-ldm" class="action-button">GENERATE FINAL REPORT</button></div>
+        </div>
+    </div>
+    
+    <!-- PAGE 4: DUAL REPORT VIEW -->
+    <div id="dual-report-page" class="page">
+        <div class="dual-report-container">
+            <div class="report-half" id="left-report">
+                <h2>FLIGHT DEPARTURE MESSAGE</h2>
+                <pre id="left-report-content"></pre>
+            </div>
+            <div class="report-half" id="right-report">
+                <div id="right-report-content"></div>
+            </div>
+        </div>
+        <div class="page-navigation">
+            <button id="report-back-btn" class="action-button previous-btn">BACK TO FORM</button>
+            <button id="print-left-btn" class="action-button">PRINT MESSAGE</button>
+            <button id="print-right-btn" class="action-button">PRINT LDM</button>
+            <button id="new-report-btn" class="action-button">NEW REPORT</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
