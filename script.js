@@ -456,7 +456,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
         switch(destination) {
             case 'DOH':
-                // Format: BSxxx/DDMONYY.REG.SEAT.CREW
+            // AIRBUS (AL Series) এর জন্য লজিক - AL দিয়ে রেজিস্ট্রেশন শুরু হলে (যেমন S2ALA)
+            if (d.acRegLdm.includes('AL')) {
+                // ইনপুট থেকে COM NO গুলোকে আলাদা করা হচ্ছে
+                const bagComsDoh = d.baggageComNo ? d.baggageComNo.split(',').map(s => s.trim()) : [];
+                const cgoComsDoh = d.cargoComNo ? d.cargoComNo.split(',').map(s => s.trim()) : [];
+
+                // CPT স্ট্যাটাস বের করার ফাংশন
+                const getCptLineDoh = (cptNum) => {
+                    const sNum = String(cptNum);
+                    const hasBag = bagComsDoh.includes(sNum);
+                    const hasCgo = cgoComsDoh.includes(sNum);
+                    
+                    if (hasBag && hasCgo) return "BAG/CGO BY";
+                    if (hasBag) return "BAG BY";
+                    if (hasCgo) return "CGO BY";
+                    return "NIL";
+                };
+
+                // ৫টি কম্পার্টমেন্ট সহ LDM লাইন (Airbus এর জন্য)
+                ldm = `LDM\nBS${d.flightNoSuffix}/${formatDate(d.date, 'DDMONYY')}.${d.acRegLdm}.${seatConfig}.${d.configure}\n` +
+                      `-${destination}.${d.paxMale}/${d.paxFemale}/${d.paxChild}/${d.paxInfant}.T.${totalLoad}.1/${dist1}.2/${dist2}.3/${dist3}.4/${dist4}.5/${dist5}.PAX.00/${d.paxTotal}.PAD/0/0\n`+
+                      `CPT1- ${getCptLineDoh(1)}\n`+
+                      `CPT2- ${getCptLineDoh(2)}\n`+
+                      `CPT3- ${getCptLineDoh(3)}\n`+
+                      `CPT4- ${getCptLineDoh(4)}\n`+
+                      `CPT5- ${getCptLineDoh(5)}\n\n`+
+                      `${destination} FRE 0 POS 0 BAG ${d.baggagePcs} PCS /${d.baggageWeight} KGS EQP 0 TRA 0\n`+
+                      `${destination} FRE 0 POS 0 CGO ${d.cargoPcs} PCS/ ${d.cargoWeight} KGS EQP 0 TRA 0\n`;
+
+            } else {
+                // BOEING বা অন্য এয়ারক্রাফটের জন্য আগের লজিক (অপরিবর্তিত)
                 ldm = `LDM\nBS${d.flightNoSuffix}/${formatDate(d.date, 'DDMONYY')}.${d.acRegLdm}.${seatConfig}.${d.configure}\n` +
                       `-${destination}.${d.paxMale}/${d.paxFemale}/${d.paxChild}/${d.paxInfant}.T.${totalLoad}.1/${dist1}.2/${dist2}.3/${dist3}.4/${dist4}.PAX.00/${d.paxTotal}.PAD/0/0\n`+
                       `CPT1- ${parseInt(dist1) > 0 ? 'BAG/CGO BY' : 'NIL'}\n`+
@@ -465,12 +495,15 @@ document.addEventListener('DOMContentLoaded', function() {
                       `CPT4- ${parseInt(dist4) > 0 ? 'BAG/CGO BY' : 'NIL'}\n\n`+
                       `${destination} FRE 0 POS 0 BAG ${d.baggagePcs} PCS /${d.baggageWeight} KGS EQP 0 TRA 0\n`+
                       `${destination} FRE 0 POS 0 CGO ${d.cargoPcs} PCS/ ${d.cargoWeight} KGS EQP 0 TRA 0\n`;
-                if (crewBagSiLine) siLines.push(crewBagSiLine);
-                if (wcSiString) siLines.push(wcSiString);
-                if (comailSiLine) siLines.push(comailSiLine);
-                if (siLines.length > 0) ldm += `\n${siLines.join('\n')}`;
-                ldm += `\n\n\nEND\n\n\n${dynamicRegards}`;
-                break;
+            }
+
+            // সাধারণ SI লাইনগুলো যোগ করা (সব এয়ারক্রাফটের জন্য)
+            if (crewBagSiLine) siLines.push(crewBagSiLine);
+            if (wcSiString) siLines.push(wcSiString);
+            if (comailSiLine) siLines.push(comailSiLine);
+            if (siLines.length > 0) ldm += `\n${siLines.join('\n')}`;
+            ldm += `\n\n\nEND\n\n\n${dynamicRegards}`;
+            break;
 
             case 'SHJ':
             case 'DXB':
