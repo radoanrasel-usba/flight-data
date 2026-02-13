@@ -506,9 +506,37 @@ document.addEventListener('DOMContentLoaded', function() {
             break;
 
             case 'SHJ':
-            case 'DXB':
-            case 'AUH':
-                // Helper function to generate dynamic CPT lines
+        case 'DXB':
+        case 'AUH':
+            if (d.acRegLdm.includes('AL')) {
+                // ================= AIRBUS (AL Series) LOGIC =================
+                const bagComs = d.baggageComNo ? d.baggageComNo.split(',').map(s => s.trim()) : [];
+                const cgoComs = d.cargoComNo ? d.cargoComNo.split(',').map(s => s.trim()) : [];
+
+                // CPT Helper for Airbus (Supports 5 CPTs)
+                const getCptLineAirbus = (cptNum) => {
+                    const sNum = String(cptNum);
+                    const hasBag = bagComs.includes(sNum);
+                    const hasCgo = cgoComs.includes(sNum);
+                    
+                    if (hasBag && hasCgo) return "BAG+CGO BY";
+                    if (hasBag) return "BAG BY";
+                    if (hasCgo) return "CGO BY";
+                    return "NIL";
+                };
+
+                // LDM Format with 5 Compartments + 5 CPT Lines
+                ldm = `LDM\nBS${d.flightNoSuffix}/${formatDate(d.date, 'DDMON')}.${d.acRegLdm}.${seatConfig}.${d.configure}\n` +
+                      `-${destination}.${d.paxMale}/${d.paxFemale}/${d.paxChild}/${d.paxInfant}.T.${totalLoad}.1/${dist1}.2/${dist2}.3/${dist3}.4/${dist4}.5/${dist5}.PAX/0/${d.paxTotal}.PAD/0/0\n\n` +
+                      `CPT1- ${getCptLineAirbus(1)}\n` +
+                      `CPT2- ${getCptLineAirbus(2)}\n` +
+                      `CPT3- ${getCptLineAirbus(3)}\n` +
+                      `CPT4- ${getCptLineAirbus(4)}\n` +
+                      `CPT5- ${getCptLineAirbus(5)}\n\n` +
+                      `${destination} C     ${d.cargoPcs}/     ${d.cargoWeight} M     0 B     ${d.baggagePcs}/     ${d.baggageWeight} O     0 T       0\n`;
+
+            } else {
+                // ================= BOEING/OTHER LOGIC (UNCHANGED) =================
                 const getCptLine = (cptNum, bagComs, cgoComs) => {
                     const hasBag = bagComs.includes(String(cptNum));
                     const hasCgo = cgoComs.includes(String(cptNum));
@@ -522,7 +550,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const bagComs = d.baggageComNo.split(',').map(s => s.trim());
                 const cgoComs = d.cargoComNo.split(',').map(s => s.trim());
 
-                // Format: BSxxx/DDMON.REG.SEAT.CREW
                 ldm = `LDM\nBS${d.flightNoSuffix}/${formatDate(d.date, 'DDMON')}.${d.acRegLdm}.${seatConfig}.${d.configure}\n` +
                       `-${destination}.${d.paxMale}/${d.paxFemale}/${d.paxChild}/${d.paxInfant}.T.${totalLoad}.1/${dist1}.2/${dist2}.3/${dist3}.4/${dist4}.PAX/0/${d.paxTotal}.PAD/0/0\n\n` +
                       `${getCptLine(1, bagComs, cgoComs)}\n` +
@@ -530,26 +557,38 @@ document.addEventListener('DOMContentLoaded', function() {
                       `${getCptLine(3, bagComs, cgoComs)}\n` +
                       `${getCptLine(4, bagComs, cgoComs)}\n\n` +
                       `${destination} C     ${d.cargoPcs}/     ${d.cargoWeight} M     0 B     ${d.baggagePcs}/     ${d.baggageWeight} O     0 T       0\n`;
-                if (wcSiString) siLines.push(wcSiString);
-                if (crewBagSiLine) siLines.push(crewBagSiLine);
-                if (comailSiLine) siLines.push(comailSiLine);
-                if (siLines.length > 0) ldm += `${siLines.join('\n')}\n`;
-                ldm += `\n\n\nEND\n\n\n${dynamicRegards}`;
-                break;
+            }
+
+            if (wcSiString) siLines.push(wcSiString);
+            if (crewBagSiLine) siLines.push(crewBagSiLine);
+            if (comailSiLine) siLines.push(comailSiLine);
+            if (siLines.length > 0) ldm += `${siLines.join('\n')}\n`;
+            ldm += `\n\n\nEND\n\n\n${dynamicRegards}`;
+            break;
             
             case 'MCT':
-                 // Format: BSxxx/DDMON.REG.SEAT.CREW
-                 ldm = `LDM\nBS${d.flightNoSuffix}/${formatDate(d.date, 'DDMON')}.${d.acRegLdm}.${seatConfig}.${d.configure}\n` +
-                      `-${destination}.${d.paxMale}/${d.paxFemale}/${d.paxChild}/${d.paxInfant}.T.${totalLoad}.1/${dist1}.2/${dist2}.3/${dist3}.4/${dist4}.PAX.00/${d.paxTotal}.PAD/0/0\n\n` +
-                      `${destination} FRE 0 POS 0 BAG ${d.baggagePcs} PCS/${d.baggageWeight} KGS EQP 0 TRA 0\n` +
-                      `${destination} FRE 0 POS 0 CGO ${d.cargoPcs} PCS/${d.cargoWeight} KGS  EQP 0 TRA 0\n\n`;
-                siLines.push(`SI: MAAS ${String(d.maas).padStart(2,'0')}`);
-                if (wcSiString) siLines.push(wcSiString);
-                if (crewBagSiLine) siLines.push(crewBagSiLine);
-                if (comailSiLine) siLines.push(comailSiLine);
-                ldm += `${siLines.join('\n')}\n`;
-                ldm += `\n\n\nEND\n\n\n${dynamicRegards}`;
-                break;
+             // Load Line Logic: Check for AL series to include 5th compartment
+             let loadLineMct = '';
+             if (d.acRegLdm.includes('AL')) {
+                 // Airbus Format with 5 compartments
+                 loadLineMct = `-${destination}.${d.paxMale}/${d.paxFemale}/${d.paxChild}/${d.paxInfant}.T.${totalLoad}.1/${dist1}.2/${dist2}.3/${dist3}.4/${dist4}.5/${dist5}.PAX.00/${d.paxTotal}.PAD/0/0`;
+             } else {
+                 // Original/Boeing Format with 4 compartments
+                 loadLineMct = `-${destination}.${d.paxMale}/${d.paxFemale}/${d.paxChild}/${d.paxInfant}.T.${totalLoad}.1/${dist1}.2/${dist2}.3/${dist3}.4/${dist4}.PAX.00/${d.paxTotal}.PAD/0/0`;
+             }
+
+             ldm = `LDM\nBS${d.flightNoSuffix}/${formatDate(d.date, 'DDMON')}.${d.acRegLdm}.${seatConfig}.${d.configure}\n` +
+                  `${loadLineMct}\n\n` +
+                  `${destination} FRE 0 POS 0 BAG ${d.baggagePcs} PCS/${d.baggageWeight} KGS EQP 0 TRA 0\n` +
+                  `${destination} FRE 0 POS 0 CGO ${d.cargoPcs} PCS/${d.cargoWeight} KGS  EQP 0 TRA 0\n\n`;
+            
+            siLines.push(`SI: MAAS ${String(d.maas).padStart(2,'0')}`);
+            if (wcSiString) siLines.push(wcSiString);
+            if (crewBagSiLine) siLines.push(crewBagSiLine);
+            if (comailSiLine) siLines.push(comailSiLine);
+            ldm += `${siLines.join('\n')}\n`;
+            ldm += `\n\n\nEND\n\n\n${dynamicRegards}`;
+            break;
 
             case 'RUH':
             case 'JED':
